@@ -1,0 +1,8 @@
+    int result;
+    bool flag = false;
+    int power(int n) {
+        if (!flag)
+            return 1;
+        else
+            return n * power(n - 1);
+    }

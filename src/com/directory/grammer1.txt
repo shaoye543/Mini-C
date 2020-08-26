@@ -1,0 +1,79 @@
+左部(只有一个)   右部(以空格分隔)
+program declaration-list
+declaration-list declaration-list declaration
+declaration-list declaration
+declaration variable-declaration
+declaration function-declaration
+variable-declaration type-specifier ID ;
+variable-declaration type-specifier ID [ NUM ] ;
+type-specifier int
+type-specifier void
+type-specifier struct-specifier
+struct-specifier struct optional-identifier { struct-declaration-list }
+optional-identifier ID
+optional-identifier ε
+struct-declaration-list struct-declaration-list int ID ;
+struct-declaration-list int ID ;
+function-declaration type-specifier ID ( parameters ) compound-statement
+parameters parameter-list
+parameters void
+parameter-list parameter-list , parameter
+parameter-list parameter
+parameter type-specifier ID
+parameter type-specifier ID [ ]
+compound-statement { local-declarations statement-list }
+local-declarations local-declarations variable-declaration
+local-declarations ε
+statement-list statement-list statement
+statement-list ε
+statement compound-statement
+statement expression-statement
+statement selection-statement
+statement labeled-statement
+statement iteration-statement
+statement jump-statement
+expression-statement optional-expression ;
+optional-expression expression
+optional-expression ε
+selection-statement if ( expression ) statement
+selection-statement if ( expression ) statement else statement
+selection-statement switch ( expression ) statement
+iteration-statement while ( expression ) statement
+iteration-statement for ( optional-expression ; optional-expression ; optional-expression ) statement
+jump-statement return optional-expression ;
+jump-statement break ;
+jump-statement goto ID ;
+labeled-statement ID : statement
+labeled-statement case conditional-expression : statement
+labeled-statement default : statement
+expression assignment-expression
+expression conditional-expression
+assignment-expression variable = expression
+variable ID
+variable ID [ NUM ]
+variable ID . ID
+conditional-expression additive-expression
+conditional-expression additive-expression relation-operator additive-expression
+relation-operator <=
+relation-operator <
+relation-operator >
+relation-operator >=
+relation-operator ! =
+relation-operator ==
+additive-expression multiplicative-expression
+additive-expression additive-expression add-operator multiplicative-expression
+add-operator +
+add-operator -
+multiplicative-expression primary-expression
+multiplicative-expression multiplicative-expression mul-operator primary-expression
+mul-operator *
+mul-operator /
+primary-expression variable
+primary-expression NUM
+primary-expression ( expression )
+primary-expression call-function
+call-function ID ( arguments )
+arguments argument-list
+arguments ε
+argument-list argument-list , expression
+argument-list expression
