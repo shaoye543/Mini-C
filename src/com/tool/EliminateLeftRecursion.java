@@ -36,7 +36,6 @@ public class EliminateLeftRecursion {
             this.start = start;
         }
     }
-
-
+    
 
 }
