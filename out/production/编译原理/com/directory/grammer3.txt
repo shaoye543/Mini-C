@@ -3,76 +3,76 @@ B B C
 B C 
 C D 
 C I 
-D E null null 
-D E null null null null null 
-E null 
-E null 
+D E ID ; 
+D E ID [ NUM ] ; 
+E int 
+E void 
 E F 
-F null G null H null 
-G null 
-G null 
-H H null null null 
-H null null null 
-I E null null J null M 
+F struct G { H } 
+G ID 
+G ¦Å 
+H H int ID ; 
+H int ID ; 
+I E ID ( J ) M 
 J K 
-J null 
-K K null L 
+J void 
+K K , L 
 K L 
-L E null 
-L E null null null 
-M null N O null 
+L E ID 
+L E ID [ ] 
+M { N O } 
 N N D 
-N null 
+N ¦Å 
 O O P 
-O null 
+O ¦Å 
 P M 
 P Q 
 P S 
 P V 
 P T 
 P U 
-Q R null 
+Q R ; 
 R W 
-R null 
-S null null W null P 
-S null null W null P null P 
-S null null W null P 
-T null null W null P 
-T null null R null R null R null P 
-U null R null 
-U null null 
-U null null null 
-V null null P 
-V null Z null P 
-V null null P 
+R ¦Å 
+S if ( W ) P 
+S if ( W ) P else P 
+S switch ( W ) P 
+T while ( W ) P 
+T for ( R ; R ; R ) P 
+U return R ; 
+U break ; 
+U goto ID ; 
+V ID : P 
+V case Z : P 
+V default : P 
 W X 
 W Z 
-X Y null W 
-Y null 
-Y null null null null 
-Y null null null 
+X Y = W 
+Y ID 
+Y ID [ NUM ] 
+Y ID . ID 
 Z AB 
 Z AB AA AB 
-AA null 
-AA null 
-AA null 
-AA null 
-AA null null 
-AA null 
+AA <= 
+AA < 
+AA > 
+AA >= 
+AA ! = 
+AA == 
 AB AD 
 AB AB AC AD 
-AC null 
-AC null 
+AC + 
+AC - 
 AD AF 
 AD AD AE AF 
-AE null 
-AE null 
+AE * 
+AE / 
 AF Y 
-AF null 
-AF null W null 
+AF NUM 
+AF ( W ) 
 AF AG 
-AG null null AH null 
+AG ID ( AH ) 
 AH AI 
-AH null 
-AI AI null W 
+AH ¦Å 
+AI AI , W 
 AI W 

@@ -105,10 +105,37 @@ public class GetProduction {
         writer.close();
     }
 
+    private static void writeAllSimplifiedProduction1() throws IOException {
+        File file = new File("src/com/directory/grammer4.txt");
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/com/directory/grammer.txt")));
+        FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
+        BufferedWriter writer = new BufferedWriter(fileWriter);
+        if (!file.exists())
+            file.createNewFile();
+
+        String line;
+        reader.readLine();
+        while ((line = reader.readLine()) != null) {
+            String[] pros = line.split("\\s+");
+            writer.write(result.get(pros[1]));
+            for (int i = 2; i < pros.length; i++) {
+                String s = result.get(pros[i]);
+                if (s != null)
+                    writer.write(" " + s);
+                else
+                    writer.write(" " + pros[i]);
+            }
+            writer.write("\n");
+        }
+        writer.close();
+    }
+
+
     public static void main(String[] args) throws IOException {
         writeAllProduction();
         SimplifyProduction();
         writeAllSimplifiedProduction();
+        writeAllSimplifiedProduction1();
 
 
 //        for (String value : list) {
