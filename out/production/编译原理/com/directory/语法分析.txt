@@ -4,28 +4,28 @@
 #include <cstdio>
 #include <cstring>
 using namespace std;
-//¶ÑÕ»
+//å †æ ˆ
 stack<int> state_stack;
 stack<char> sign_stack;
 
-char G[300][300];     //´æÎÄ·¨
-int length[300];    //ÎÄ·¨µÄ³¤¶È
-int number=0;    //ÎÄ·¨µÄ¸öÊı
+char G[300][300];     //å­˜æ–‡æ³•
+int length[300];    //æ–‡æ³•çš„é•¿åº¦
+int number=0;    //æ–‡æ³•çš„ä¸ªæ•°
 bool isV[300];      //buffer of input
-char Vn[300];        //·ÇÖÕ½á·û
+char Vn[300];        //éç»ˆç»“ç¬¦
 int size_vn=0;
-char Vt[300];       //ÖÕ½á·û
+char Vt[300];       //ç»ˆç»“ç¬¦
 int size_vt=0;
-bool first[300][300];    //first¼¯
+bool first[300][300];    //firsté›†
 char buffer[300];
 int size=0;
-struct T        //×ª»»±í  ÏîÄ¿¼¯×ª»»
+struct T        //è½¬æ¢è¡¨  é¡¹ç›®é›†è½¬æ¢
 {
 		int begin;
 		int next;
 		char ch;
 };
-struct project      //ÏîÄ¿¼¯
+struct project      //é¡¹ç›®é›†
 {
 		int num;
 		int now;
@@ -47,7 +47,7 @@ int size_item[300];
 action action_table[300][300];
 int size_act_table[300];
 
-//ÎÄ¼ş¶¨Òå
+//æ–‡ä»¶å®šä¹‰
 ifstream grammar_file;
 ifstream input_file;
 ofstream items_file;
@@ -55,11 +55,11 @@ ofstream action_file;
 ofstream firstset_file;
 ofstream procedure_file;
 
-void get_grammar()     //¶ÁÎÄ·¨
+void get_grammar()     //è¯»æ–‡æ³•
 {
 		char nouse,temp;
 		int i,j=0;
-		G[0][0]='S';    //S¡®->`S
+		G[0][0]='S';    //Sâ€˜->`S
 		length[0]=2;
 		grammar_file>>number;
 		for(i=1;i<=number;++i)
@@ -76,7 +76,7 @@ void get_grammar()     //¶ÁÎÄ·¨
 				length[i]=j;
 		}
 		G[0][1]=G[1][0];
-	 //ASCIIÂë±í
+	 //ASCIIç è¡¨
 		for(i=0;i<64;++i)
 		{
 				if(isV[i])
@@ -112,7 +112,7 @@ bool Is_in_vn(char a)
 }
 void get_first()
 {
-		bool done=true;    //»¹ÓĞÄÜ¸ÄµÄµØ·½ ¾Í²»Í£µÄ×ö
+		bool done=true;    //è¿˜æœ‰èƒ½æ”¹çš„åœ°æ–¹ å°±ä¸åœçš„åš
 		int t,k;
 		bool isempty;
 		while(done)
@@ -135,7 +135,7 @@ void get_first()
 													done=true;
 											}
 										}
-										if(first[G[i][t]-'A'][64]==true)    //ÓÃ@±íÊ¾ ¿Õ
+										if(first[G[i][t]-'A'][64]==true)    //ç”¨@è¡¨ç¤º ç©º
 										{
 												isempty=true;
 												++t;
@@ -192,7 +192,7 @@ void write_first_set()
 }
 
 
-void gete_search(project temp)    //µÃµ½ÏòÇ°ËÑË÷·û
+void gete_search(project temp)    //å¾—åˆ°å‘å‰æœç´¢ç¬¦
 {
 		size=0;
 		bool flag=true;
@@ -234,7 +234,7 @@ void gete_search(project temp)    //µÃµ½ÏòÇ°ËÑË÷·û
 		}
 }
 
-bool is_in(project temp,int T)   //µ±Ç°ÏîÄ¿¼¯ÔªËØÊÇ·ñÖØ¸´
+bool is_in(project temp,int T)   //å½“å‰é¡¹ç›®é›†å…ƒç´ æ˜¯å¦é‡å¤
 {
 		int i;
 		for(i=0;i<size_item[T];++i)
@@ -247,7 +247,7 @@ bool is_in(project temp,int T)   //µ±Ç°ÏîÄ¿¼¯ÔªËØÊÇ·ñÖØ¸´
 		return false;
 }
 
-void e_closure(int T)   //ÇóÏîÄ¿¼¯×å
+void e_closure(int T)   //æ±‚é¡¹ç›®é›†æ—
 {
 		project temp;
 		int i,j,k;
@@ -278,7 +278,7 @@ void e_closure(int T)   //ÇóÏîÄ¿¼¯×å
 		return;
 }
 
-int is_contained()   //µ±Ç°ÏîÄ¿¼¯ ºÍÒÔÇ°±È½Ï
+int is_contained()   //å½“å‰é¡¹ç›®é›† å’Œä»¥å‰æ¯”è¾ƒ
 {
 		int i;
 		int sum=0;
@@ -286,7 +286,7 @@ int is_contained()   //µ±Ç°ÏîÄ¿¼¯ ºÍÒÔÇ°±È½Ï
 		int k;
 		for(i=0;i<count;++i)
 		{
-			 	sum=0;        //¼ÇÂ¼ÓĞ¶àÉÙÊÇÆ¥ÅäµÄ
+			 	sum=0;        //è®°å½•æœ‰å¤šå°‘æ˜¯åŒ¹é…çš„
 			 	if(size_item[count]==size_item[i])
 			 	{
 			 		for(j=0;j<size_item[count];++j)
@@ -345,7 +345,7 @@ void make_set()
 										buf[buf_size++]=tp;
 								}
 						}
-						if(buf_size!= 0)    //²úÉúÒ»¸öĞÂµÄÏîÄ¿¼¯
+						if(buf_size!= 0)    //äº§ç”Ÿä¸€ä¸ªæ–°çš„é¡¹ç›®é›†
 						{
 								count++;
 								for(t=0;t<buf_size;++t)
@@ -353,8 +353,8 @@ void make_set()
 										items[count][size_item[count]++]=buf[t];
 								}
 								e_closure(count);
-								nextt_state=is_contained();        //¼ì²éµÚcount¸öÏîÄ¿¼¯ÊÇ·ñÖØ¸´
-								if(nextt_state!=0)           //ÖØ¸´£¬Ôò×ª»»µ½ÒÑÓĞµÄÄÇ¸öÏîÄ¿¼¯ÖĞÈ¥
+								nextt_state=is_contained();        //æ£€æŸ¥ç¬¬countä¸ªé¡¹ç›®é›†æ˜¯å¦é‡å¤
+								if(nextt_state!=0)           //é‡å¤ï¼Œåˆ™è½¬æ¢åˆ°å·²æœ‰çš„é‚£ä¸ªé¡¹ç›®é›†ä¸­å»
 								{
 										size_item[count--]=0;
 										trans[size_trans].begin=index;
@@ -465,7 +465,7 @@ void write_stack(int x)
 {
 	stack<int> a;
 	stack<char> c;
-	if(x==1)    //×´Ì¬
+	if(x==1)    //çŠ¶æ€
 	{
 		while(state_stack.empty()==false)
 		{
@@ -479,7 +479,7 @@ void write_stack(int x)
 			a.pop();
 		}
 	}
-	if(x==2)   //·ûºÅ
+	if(x==2)   //ç¬¦å·
 	{
 		while(sign_stack.empty()==false)
 		{
@@ -507,7 +507,7 @@ void judge()
 
     state_stack.push(0);
     sign_stack.push('#');
-    procedure_file<<"×´Ì¬Õ»                 ·ûºÅÕ»                  ÊäÈë´®               ACTION                  GOTO"<<endl;
+    procedure_file<<"çŠ¶æ€æ ˆ                 ç¬¦å·æ ˆ                  è¾“å…¥ä¸²               ACTION                  GOTO"<<endl;
     int i,j,k,m;
     int tp,len;
     int aa;
@@ -535,7 +535,7 @@ void judge()
                                     done = true;
                                     break;
                     }
-                    else if(action_table[work_sta][i].next_state > 0)   //ÒÆ½ø
+                    else if(action_table[work_sta][i].next_state > 0)   //ç§»è¿›
                     {
                     		procedure_file<<'S'<<action_table[work_sta][i].next_state<<endl;
 
@@ -576,7 +576,7 @@ void judge()
     if(!done)
     {
         cout << "NO" << endl;
-        cout<<"³ö´íÔ­Òò¿ÉÄÜÊÇÎ´ÕÒµ½£º";
+        cout<<"å‡ºé”™åŸå› å¯èƒ½æ˜¯æœªæ‰¾åˆ°ï¼š";
         for(i=0;i<size_act_table[work_sta];++i)
         {
         		cout<<action_table[work_sta][i].ch<<" ";
@@ -606,12 +606,12 @@ void init()
 }
 void open_file()
 {
-	grammar_file.open("F:\\±àÒëÔ­Àí¿Î³ÌÉè¼Æ´ğ±ç\\Óï·¨·ÖÎö_ÎÄ·¨.txt");
-    input_file.open("F:\\±àÒëÔ­Àí¿Î³ÌÉè¼Æ´ğ±ç\\output.txt");
-    items_file.open("F:\\±àÒëÔ­Àí¿Î³ÌÉè¼Æ´ğ±ç\\ÏîÄ¿¼¯.txt");
-    action_file.open("F:\\±àÒëÔ­Àí¿Î³ÌÉè¼Æ´ğ±ç\\·ÖÎö±í.txt");
-    firstset_file.open("F:\\±àÒëÔ­Àí¿Î³ÌÉè¼Æ´ğ±ç\\first¼¯.txt");
-    procedure_file.open("F:\\±àÒëÔ­Àí¿Î³ÌÉè¼Æ´ğ±ç\\·ÖÎö¹ı³Ì.txt");
+	grammar_file.open("F:\\ç¼–è¯‘åŸç†è¯¾ç¨‹è®¾è®¡ç­”è¾©\\è¯­æ³•åˆ†æ_æ–‡æ³•.txt");
+    input_file.open("F:\\ç¼–è¯‘åŸç†è¯¾ç¨‹è®¾è®¡ç­”è¾©\\output.txt");
+    items_file.open("F:\\ç¼–è¯‘åŸç†è¯¾ç¨‹è®¾è®¡ç­”è¾©\\é¡¹ç›®é›†.txt");
+    action_file.open("F:\\ç¼–è¯‘åŸç†è¯¾ç¨‹è®¾è®¡ç­”è¾©\\åˆ†æè¡¨.txt");
+    firstset_file.open("F:\\ç¼–è¯‘åŸç†è¯¾ç¨‹è®¾è®¡ç­”è¾©\\firsté›†.txt");
+    procedure_file.open("F:\\ç¼–è¯‘åŸç†è¯¾ç¨‹è®¾è®¡ç­”è¾©\\åˆ†æè¿‡ç¨‹.txt");
 }
 void LR1()
 {

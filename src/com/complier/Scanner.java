@@ -6,34 +6,34 @@ import java.io.*;
  * @Author: Shaoye
  * @Date: 2020/8/19
  * @ClassName: Scanner
- * ´Ê·¨·ÖÎöÆ÷
- * ÎÄ¼ş¶ÁÈ¡ÉĞÓĞĞ¡bugØ½Ğè¸ÄÕı
+ * è¯æ³•åˆ†æå™¨
+ * æ–‡ä»¶è¯»å–å°šæœ‰å°bugäºŸéœ€æ”¹æ­£
  **/
 
 public class Scanner {
 
-    private static final int Start = 0;   //¿ªÊ¼×´Ì¬
-    private static final int Num = 1;     //¶Áµ½Êı×Ö
-    private static final int ID = 2;      //¶Áµ½×ÖÄ¸
-    private static final int EQ = 3;      //¶Áµ½µÈºÅ
-    private static final int GL = 4;      //¶Áµ½´óÓÚ»òĞ¡ÓÚ
-    private static final int NE = 5;      //¶Áµ½¸ĞÌ¾ºÅ
-    //    private static final int MU = 7;      //¶Áµ½³ËºÅ
-    //    private static final int DI = 8;      //¶Áµ½³ıºÅ
-    //    private static final int SU = 9;      //¶Áµ½¼õºÅ
-    //    private static final int AD = 10;     //¶Áµ½¼ÓºÅ
+    private static final int Start = 0;   //å¼€å§‹çŠ¶æ€
+    private static final int Num = 1;     //è¯»åˆ°æ•°å­—
+    private static final int ID = 2;      //è¯»åˆ°å­—æ¯
+    private static final int EQ = 3;      //è¯»åˆ°ç­‰å·
+    private static final int GL = 4;      //è¯»åˆ°å¤§äºæˆ–å°äº
+    private static final int NE = 5;      //è¯»åˆ°æ„Ÿå¹å·
+    //    private static final int MU = 7;      //è¯»åˆ°ä¹˜å·
+    //    private static final int DI = 8;      //è¯»åˆ°é™¤å·
+    //    private static final int SU = 9;      //è¯»åˆ°å‡å·
+    //    private static final int AD = 10;     //è¯»åˆ°åŠ å·
     private static final int Special = 11;
     private static final int Error = 12;
-    private static final int Done = -1;   //½áÊø·û
+    private static final int Done = -1;   //ç»“æŸç¬¦
 
-    //¹Ø¼ü×Ö ÖÖ±ğÂëÎªÆäË÷Òı+1
+    //å…³é”®å­— ç§åˆ«ç ä¸ºå…¶ç´¢å¼•+1
     private static String[] keywords = {"else", "if", "switch", "case", "default", "int", "void", "struct", "return", "break", "goto", "while", "for"};
-    //ÔËËã·ûºÍ·Ö¸ô·û  ÖÖ±ğÂëÎªÆäË÷Òı+14
+    //è¿ç®—ç¬¦å’Œåˆ†éš”ç¬¦  ç§åˆ«ç ä¸ºå…¶ç´¢å¼•+14
     private static String[] symbols = {"+", "-", "*", "/", "<", "<=", ">", ">=", "==", "!=", "=", ";", ",", "(", ")", "[", "]", "{", "}"};
 
     private static BufferedReader file;
-    private static String line;    //µ±Ç°ĞĞÄÚÈİ
-    private static int position = 0;   //µ±Ç°×Ö·ûÎ»ÖÃ
+    private static String line;    //å½“å‰è¡Œå†…å®¹
+    private static int position = 0;   //å½“å‰å­—ç¬¦ä½ç½®
     private static int buffSize = 0;   //
     private static boolean isEOF = false;
 
@@ -61,7 +61,7 @@ public class Scanner {
 
 
     /**
-     * ÅĞ¶ÏÊÇ·ñµ±Ç°×Ö·ûÎªÊı×Ö
+     * åˆ¤æ–­æ˜¯å¦å½“å‰å­—ç¬¦ä¸ºæ•°å­—
      *
      * @param c
      * @return
@@ -71,7 +71,7 @@ public class Scanner {
     }
 
     /**
-     * ÅĞ¶Ïµ±Ç°×Ö·ûÊÇ·ñÎª×ÖÄ¸
+     * åˆ¤æ–­å½“å‰å­—ç¬¦æ˜¯å¦ä¸ºå­—æ¯
      *
      * @param c
      * @return
@@ -81,7 +81,7 @@ public class Scanner {
     }
 
     /**
-     * »ñÈ¡ÖÖ±ğÂë
+     * è·å–ç§åˆ«ç 
      *
      * @param str
      * @return
@@ -117,12 +117,12 @@ public class Scanner {
 
     private static void getToken() throws Exception {
 
-        File file = new File("E:\\Code\\Java\\±àÒëÔ­Àí\\src\\com\\directory\\token.txt");
+        File file = new File("E:\\Code\\Java\\ç¼–è¯‘åŸç†\\src\\com\\directory\\token.txt");
         if (!file.exists())
             file.createNewFile();
         FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
         BufferedWriter bw = new BufferedWriter(fileWriter);
-        bw.write("×Ö·û\t\tÖÖ±ğÂë");
+        bw.write("å­—ç¬¦\t\tç§åˆ«ç ");
 
         StringBuilder token = new StringBuilder();
         int currentState = Start;
@@ -206,7 +206,7 @@ public class Scanner {
                 currentState = Start;
                 int code = getCode(token.toString());
                 if (code != -1) {
-                    System.out.println("token:" + token + "---ÖÖ±ğÂë:" + code);
+                    System.out.println("token:" + token + "---ç§åˆ«ç :" + code);
                     bw.write("\n" + String.valueOf(token));
                     bw.write("\t\t" + String.valueOf(code));
                 }
@@ -217,7 +217,7 @@ public class Scanner {
     }
 
     public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner("E:\\Code\\Java\\±àÒëÔ­Àí\\src\\com\\directory\\test.txt");
+        Scanner scanner = new Scanner("E:\\Code\\Java\\ç¼–è¯‘åŸç†\\src\\com\\directory\\test.txt");
         scan();
     }
 

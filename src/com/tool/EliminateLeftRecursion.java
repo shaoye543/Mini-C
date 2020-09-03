@@ -1,5 +1,9 @@
 package com.tool;
 
+
+import com.pojo.Grammar;
+import com.pojo.Production;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,167 +12,219 @@ import java.util.List;
  * @Author: Shaoye
  * @Date: 2020/8/26
  * @ClassName: EliminateLeftRecursion
+ * æ¶ˆé™¤å·¦é€’å½’
  **/
 
 public class EliminateLeftRecursion {
 
-    private static class Production {
-        String key;          //×ó
-        List<List<String>> value = new ArrayList<>();
+    private static final Grammar grammar = new Grammar("src/com/directory/æ¶ˆé™¤å·¦é€’å½’.txt");
 
-        boolean equal(Production production) {
-            List<String> list = this.value.get(0);
-            List<String> list1 = production.value.get(0);
-            if (production.key.equals(this.key))
-                return list.equals(list1);
-            return false;
-        }
-    }
-
-
-    /**
-     * ÆäÊµÕâ¸öÀà×îÖÕÒ²Ã»É¶ÓÃ ·´¶ø»¹ÅªÂé·³ÁË ÈÃÎÒ·ÅÆúÁË
-     */
-    private static class Grammer {
-        String[] vn;      //·ÇÖÕ½á·û¼¯ºÏ
-        String[] vt;      //ÖÕ½á·û¼¯ºÏ
-        List<Production> production = new ArrayList<>();  //²úÉúÊ½
-        String start;             //ÆğÊ¼·û
-    }
-
-    private static void display(Grammer grammer) {
-        int i = 0;
-        for (Production production : grammer.production) {
-            for (List<String> list : production.value) {
-                System.out.print(++i + ". " + production.key + " ");
-                for (String s : list)
-                    System.out.print(s + " ");
+    private static void display(Production production) {
+        for (int i = 0; i < production.value.length; i++) {
+            if (production.value[i][0] != null) {
+                System.out.print(production.key);
+                for (String str : production.value[i]) {
+                    if (str == null) break;
+                    else System.out.print(" " + str);
+                }
                 System.out.println();
             }
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        Grammer grammer = new Grammer();
-
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/com/directory/grammer4.txt")));
+    /**
+     * ä»æ–‡ä»¶è¯»å–ç®€åŒ–åçš„äº§ç”Ÿå¼é›†åˆ
+     *
+     * @param filepath
+     * @return
+     */
+    private static void getProductions(String filepath) {
+        BufferedReader reader = null;
         String line;
-
-        while ((line = reader.readLine()) != null) {
-            Production production = new Production();
-            String[] str = line.split("\\s+");
-
-            production.key = str[0];    //µÚÒ»¸öÊÇ×ó²¿µÄkey
-            List<String> temp = new ArrayList<>();
-            for (int i = 1; i < str.length; i++) {
-                if (!"|".equals(str[i]))
-                    temp.add(str[i]);
-                else {
-                    production.value.add(temp);
-                    temp = new ArrayList<>();
+        int num = 0;     //è®°å½•éç»ˆç»“ç¬¦çš„æ•°é‡
+        try {
+            reader = new BufferedReader(new FileReader(new File(filepath)));
+            while ((line = reader.readLine()) != null) {
+                String[] terminal = line.split("\\s+");          //è·å–åˆ°æ‰€æœ‰éç»ˆç»“ç¬¦æˆ–ç»ˆç»“ç¬¦å­˜å…¥æ•°ç»„
+                Production production = new Production();
+                production.key = terminal[0];             //ç¬¬ä¸€ä¸ªå­—ç¬¦æ˜¯äº§ç”Ÿå¼å·¦ç«¯
+                int row = 0, col = 0;                     //å½“å‰äº§ç”Ÿå¼çš„å­äº§ç”Ÿå¼ã€å­äº§ç”Ÿå¼çš„ç¬¬colä¸ªå­—ç¬¦
+                for (int i = 1; i < terminal.length; i++) {
+                    if ("|".equals(terminal[i])) {
+                        row++;
+                        col = 0;
+                    } else
+                        production.value[row][col++] = terminal[i];
+                }
+                grammar.production.add(production);          //åŠ å…¥æ–‡æ³•é›†åˆä¸­
+                num++;
+            }
+            for (int i = 0; i < num; i++)      //æ‰€æœ‰éç»ˆç»“ç¬¦é›†åˆ
+                grammar.vn.add(grammar.production.get(i).key);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-            production.value.add(temp);
-            grammer.production.add(production);
         }
-        reader.close();
+    }
 
+    static {
+        getProductions("src/com/directory/simplify_grammar.txt");
+    }
 
-        Grammer result = new Grammer();          //×îÖÕ²úÉúÊ½½á¹û
-        for (int i = 0; i < grammer.production.size(); i++) {
-//            for (int j = 0; j < i; j++) {                 //¼ä½Ó×óµİ¹é±äÎªÖ±½Ó×óµİ¹é
-//                for (int k = 0; k < grammer.production.get(i).value.size(); k++) {
-//                    List<String> list = grammer.production.get(i).value.get(k);
-//                    String iStart = list.get(0);
-//                    if (iStart.equals(grammer.production.get(j).key)) {
-//                        List<String> list1 = new ArrayList<>();
-//                        list1.addAll(grammer.production.get(j).value.get(0));
-//                        list1.addAll(list.subList(1, list.size()));          //ÖØ×éºóµÄ²úÉúÊ½ÓÒ²¿
-//
-//                        replaceAll(grammer.production.get(i).value, list, list1);
-//
-//                        for (int m = 1; m < grammer.production.get(j).value.size(); m++) {
-//                            list1 = new ArrayList<>();
-//                            list1.addAll(grammer.production.get(j).value.get(m));
-//                            list1.addAll(list.subList(1, list.size()));
-//                            grammer.production.get(i).value.add(list1);
-//                        }
-//                    }
-//                }
-//            }
+    /**
+     * æ£€éªŒæ˜¯å¦å­˜åœ¨é—´æ¥å·¦é€’å½’
+     */
+    private static class Pro {
+        String key;
+        String[] value = new String[20];
+        private static boolean isExist = false;         //è®°å½•æ˜¯å¦å­˜åœ¨é—´æ¥å·¦é€’å½’
+        private static final List<Pro> pros = new ArrayList<>();
 
-            Production production = grammer.production.get(i);
-            boolean flag = false;
-            for (int j = 0; j < production.value.size(); j++) {    //Ïû³ı×óµİ¹é
-                String left = production.value.get(j).get(0);    //ÓÒ²¿µÄÊ×·û
-                Production production1 = new Production();
-                List<String> temp = new ArrayList<>();
-                if (left.equals(production.key)) {                      //´æÔÚÖ±½Ó×óµİ¹é
-                    flag = true;    //´æÔÚ×óµİ¹é
-                    production1.key = production.key + "¡®";
-                    temp.addAll(production.value.get(j).subList(1, production.value.get(j).size()));   //P¡®µÄ²úÉúÊ½ Ïû³ı×óµİ¹é
-                    temp.add(production1.key);
-                    production1.value.add(temp);          //¼ÓÈë²úÉúÊ½ÓÒ²¿¼¯ºÏ
-                    grammer.production.add(production1);
-                    temp = new ArrayList<>();
-                    result.production.add(production1);
-                } else if (flag) {
-                    production1.key = production.key + "¡®";
-                    temp.addAll(production.value.get(j).subList(0, production.value.get(j).size()));
-                    temp.add(production1.key);
-                    production1.value.add(temp);
-                    grammer.production.add(production1);
-                    temp = new ArrayList<>();
-                    result.production.add(production1);
+        static void change() {
+            for (Production production : grammar.production) {
+                for (String[] strings : production.value) {
+                    if (strings[0] != null) {
+                        Pro pro = new Pro();
+                        pro.key = production.key;
+                        pro.value = strings;
+                        pros.add(pro);
+                    } else break;
                 }
-                if (!flag) {
-                    for (List<String> list : production.value) {
-                        production1.key = production.key;
-                        production1.value.add(list);
-                        result.production.add(production1);
-                        production1 = new Production();
+            }
+        }
+
+        private static void isExistDirLeftRecursion(List<String> list, boolean[] visit, String key, String check) {
+            if (list.size() > 0 && key.equals(check)) {    //åˆå§‹æ—¶checkå’Œkeyä¸€å®šç›¸åŒ æ‰€ä»¥éœ€è¦åŠ é™åˆ¶æ¡ä»¶listçš„é›†åˆå†…éœ€è¦å­˜åœ¨å…ƒç´ 
+                System.out.println(list);
+                System.out.println(check + ":YesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYes\nYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYes\nYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYes\nYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYes\nYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYes\nYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYes\nYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYes\nYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYes\nYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYesYes");
+                isExist = true;
+            } else {
+                for (int i = 0; i < pros.size(); i++) {
+                    Pro pro = pros.get(i);
+                    if (pro.key.equals(key) && !pro.value[0].equals(key) && !visit[i]) {
+                        List<String> list1 = list;
+                        if (list.size() > 0) {
+                            List<String> sub = list.subList(1, list.size());   //å°†é¦–éƒ¨æ›¿æ¢ä¸ºç›¸åº”çš„äº§ç”Ÿå¼å³éƒ¨
+                            list = new ArrayList<>();       //æ¸…ç©º
+                            for (String string : pro.value) {
+                                if (string != null) list.add(string);
+                                else break;
+                            }
+                            list.addAll(sub);
+                        } else {
+                            for (String string : pro.value) {
+                                if (string != null) list.add(string);
+                                else break;
+                            }
+                        }
+
+                        visit[i] = true;
+                        System.out.println(list);
+                        for (int k = 0; k < list.size(); k++) {
+                            if (!"Îµ".equals(list.get(k))) break;
+                            else {
+                                list.remove(k);
+                                k--;
+                            }
+                        }
+
+                        if (list.size() > 0)             //ä¸Šé¢æ¶ˆå»Îµï¼ˆç©ºï¼‰åå¯èƒ½å¯¼è‡´listé›†åˆæ¸…ç©º
+                            isExistDirLeftRecursion(list, visit, list.get(0), check);
+                        visit[i] = false;
+                        list = list1;
+                        System.out.println("--------------------------å›æº¯-------------------------");
                     }
                 }
             }
         }
 
-
-        //È¥³ıÖØ¸´µÄ²úÉúÊ½
-        int sum = 0;
-        Grammer g = new Grammer();
-        for (int i = 0; i < result.production.size(); i++) {
-            boolean flag = false;
-            for (int k = 0; k < i; k++) {
-                if (result.production.get(i).equal(result.production.get(k))) {
-                    flag = true;
-                    sum++;
-                    break;
-                }
+        public static void main(String[] args) {
+            change();
+            boolean[] visit = new boolean[78];
+            for (String string : grammar.vn) {
+                List<String> list = new ArrayList<>();
+                System.out.println("*******************************************************");
+                System.out.println(string);
+                System.out.println("*******************************************************");
+                isExistDirLeftRecursion(list, visit, string, string);
             }
-            if (!flag)
-                g.production.add(result.production.get(i));
+            System.out.println(isExist);
         }
+    }
 
-        File file = new File("src/com/directory/grammer5.txt");
+    /**
+     * æ¶ˆé™¤ç›´æ¥å·¦é€’å½’
+     */
+    private static void EliDirLeftRecursion() {
+        List<Production> productions = new ArrayList<>();
+        for (Production production : grammar.production) {
+            Production pro1 = new Production();         //å­˜å‚¨åŸå·¦éƒ¨çš„äº§ç”Ÿå¼
+            Production pro2 = new Production();         //å­˜å‚¨å˜æ¢åçš„äº§ç”Ÿå¼
+            int num1 = 0, num2 = 0;
+            pro1.key = production.key;
+            if (production.value[0][0].equals(production.key)) {         //å­˜åœ¨ç›´æ¥å·¦é€’å½’
+                for (String[] strings : production.value) {
+                    if (strings[0] != null) {
+                        if (strings[0].equals(production.key)) {
+                            pro2.key = pro1.key + "â€™";        //å˜æ¢åçš„å…³é”®å­—
+                            for (int k = 1; k < strings.length; k++) {      //å­˜æ”¾æ–°çš„äº§ç”Ÿå¼
+                                if (strings[k] != null) pro2.value[num2][k - 1] = strings[k];
+                                else {
+                                    pro2.value[num1][k - 1] = pro1.key + "â€™";
+                                    break;
+                                }
+                            }
+                            num2++;
+                        } else {
+                            for (int k = 0; k < strings.length; k++) {      //å­˜æ”¾æ–°çš„äº§ç”Ÿå¼
+                                if (strings[k] != null) pro1.value[num1][k] = strings[k];
+                                else {
+                                    pro1.value[num1][k] = pro1.key + "â€™";
+                                    break;
+                                }
+                            }
+                            num1++;
+                        }
+                    }
+                    pro2.value[num2][0] = "Îµ";
+                }
+                productions.add(pro1);
+                productions.add(pro2);
+            } else productions.add(production);
+        }
+        grammar.production = productions;
+    }
+
+    public static void main(String[] args) throws IOException {
+        EliDirLeftRecursion();
+
+        for (Production production : grammar.production)
+            display(production);
+
+        File file = new File("src/com/directory/æ¶ˆé™¤å·¦é€’å½’.txt");
         if (!file.exists())
             file.createNewFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        for (Production production : g.production) {
-            writer.write(production.key);
-            for (String str : production.value.get(0))
-                writer.write(" " + str);
-            writer.write("\n");
+        for (Production production : grammar.production) {
+            for (String[] strings : production.value) {
+                if (strings[0] != null) {
+                    writer.write(production.key);
+                    for (String str : strings)
+                        if (str != null)
+                            writer.write(" " + str);
+                    writer.write("\n");
+                }
+            }
         }
         writer.close();
 
-//        if (result.production.size() - sum == g.production.size())
-//            System.out.println("OK");
-//        System.out.println(sum);
-//        display(result);
-//        display(g);
-
-
     }
-
 
 }

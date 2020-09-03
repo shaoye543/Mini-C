@@ -1,0 +1,282 @@
+# 默认第一个字符串为产生式左边 剩下的产生式右边从第二个开始并以空格分隔
+# 最原始的产生式
+1. program   declaration-list
+2. declaration-list   declaration-list declaration | declaration
+3. declaration   variable-declaration | function-declaration
+4. variable-declaration   type-specifier ID ; | type-specifier ID [ NUM ] ;
+5. type-specifier   int | void | struct-specifier
+6. struct-specifier   struct optional-identifier { struct-declaration-list }
+7. optional-identifier   ID | ε
+8. struct-declaration-list   struct-declaration-list int ID ; | int ID ;
+9. function-declaration   type-specifier ID ( parameters ) compound-statement
+10. parameters   parameter-list | void
+11. parameter-list   parameter-list , parameter | parameter
+12. parameter   type-specifier ID | type-specifier ID [ ]
+13. compound-statement   { local-declarations statement-list }
+14. local-declarations   local-declarations variable-declaration | ε
+15. statement-list   statement-list statement | ε
+16. statement   compound-statement | expression-statement | selection-statement | labeled-statement | iteration-statement | jump-statement
+17. expression-statement   optional-expression ;
+18. optional-expression   expression | ε
+19. selection-statement   if ( expression ) statement | if ( expression ) statement else statement | switch ( expression ) statement
+20. iteration-statement   while ( expression ) statement | for ( optional-expression ; optional-expression ; optional-expression ) statement
+21. jump-statement   return optional-expression ; | break ; | goto ID ;
+22. labeled-statement   ID : statement | case conditional-expression : statement | default : statement
+23. expression   assignment-expression | conditional-expression
+24. assignment-expression   variable = expression
+25. variable   ID | ID [ NUM ] | ID . ID
+26. conditional-expression   additive-expression | additive-expression relation-operator additive-expression
+27. relation-operator   <= | < | > | >= | ! = | ==
+28. additive-expression   multiplicative-expression | additive-expression add-operator multiplicative-expression
+29. add-operator   + | -
+30. multiplicative-expression   primary-expression | multiplicative-expression mul-operator primary-expression
+31. mul-operator   * | /
+32. primary-expression   variable | NUM | ( expression ) | call-function
+33. call-function   ID ( arguments )
+34. arguments   argument-list | ε
+35. argument-list   argument-list , expression | expression
+
+
+
+# 每行只有一个产生式
+program declaration-list
+declaration-list declaration-list declaration
+declaration-list declaration
+declaration variable-declaration
+declaration function-declaration
+variable-declaration type-specifier ID ;
+variable-declaration type-specifier ID [ NUM ] ;
+type-specifier int
+type-specifier void
+type-specifier struct-specifier
+struct-specifier struct optional-identifier { struct-declaration-list }
+optional-identifier ID
+optional-identifier ε
+struct-declaration-list struct-declaration-list int ID ;
+struct-declaration-list int ID ;
+function-declaration type-specifier ID ( parameters ) compound-statement
+parameters parameter-list
+parameters void
+parameter-list parameter-list , parameter
+parameter-list parameter
+parameter type-specifier ID
+parameter type-specifier ID [ ]
+compound-statement { local-declarations statement-list }
+local-declarations local-declarations variable-declaration
+local-declarations ε
+statement-list statement-list statement
+statement-list ε
+statement compound-statement
+statement expression-statement
+statement selection-statement
+statement labeled-statement
+statement iteration-statement
+statement jump-statement
+expression-statement optional-expression ;
+optional-expression expression
+optional-expression ε
+selection-statement if ( expression ) statement
+selection-statement if ( expression ) statement else statement
+selection-statement switch ( expression ) statement
+iteration-statement while ( expression ) statement
+iteration-statement for ( optional-expression ; optional-expression ; optional-expression ) statement
+jump-statement return optional-expression ;
+jump-statement break ;
+jump-statement goto ID ;
+labeled-statement ID : statement
+labeled-statement case conditional-expression : statement
+labeled-statement default : statement
+expression assignment-expression
+expression conditional-expression
+assignment-expression variable = expression
+variable ID
+variable ID [ NUM ]
+variable ID . ID
+conditional-expression additive-expression
+conditional-expression additive-expression relation-operator additive-expression
+relation-operator <=
+relation-operator <
+relation-operator >
+relation-operator >=
+relation-operator ! =
+relation-operator ==
+additive-expression multiplicative-expression
+additive-expression additive-expression add-operator multiplicative-expression
+add-operator +
+add-operator -
+multiplicative-expression primary-expression
+multiplicative-expression multiplicative-expression mul-operator primary-expression
+mul-operator *
+mul-operator /
+primary-expression variable
+primary-expression NUM
+primary-expression ( expression )
+primary-expression call-function
+call-function ID ( arguments )
+arguments argument-list
+arguments ε
+argument-list argument-list , expression
+argument-list expression
+
+
+
+
+
+# 将每个非终结符以大写字母代替以简化
+program                       A
+declaration-list              B
+declaration                   C
+variable-declaration          D
+type-specifier                E
+struct-specifier              F
+optional-identifier           G
+struct-declaration-list       H
+function-declaration          I
+parameters                    J
+parameter-list                K
+parameter                     L
+compound-statement            M
+local-declarations            N
+statement-list                O
+statement                     P
+expression-statement          Q
+optional-expression           R
+selection-statement           S
+iteration-statement           T
+jump-statement                U
+labeled-statement             V
+expression                    W
+assignment-expression         X
+variable                      Y
+conditional-expression        Z
+relation-operator             AA
+additive-expression           AB
+add-operator                  AC
+multiplicative-expression     AD
+mul-operator                  AE
+primary-expression            AF
+call-function                 AG
+arguments                     AH
+argument-list                 AI
+
+
+
+
+# 简化后的所有产生式
+A B
+B B C
+B C
+C D
+C I
+D E ID ;
+D E ID [ NUM ] ;
+E int
+E void
+E F
+F struct G { H }
+G ID
+G ε
+H H int ID ;
+H int ID ;
+I E ID ( J ) M
+J K
+J void
+K K , L
+K L
+L E ID
+L E ID [ ]
+M { N O }
+N N D
+N ε
+O O P
+O ε
+P M
+P Q
+P S
+P V
+P T
+P U
+Q R ;
+R W
+R ε
+S if ( W ) P
+S if ( W ) P else P
+S switch ( W ) P
+T while ( W ) P
+T for ( R ; R ; R ) P
+U return R ;
+U break ;
+U goto ID ;
+V ID : P
+V case Z : P
+V default : P
+W X
+W Z
+X Y = W
+Y ID
+Y ID [ NUM ]
+Y ID . ID
+Z AB
+Z AB AA AB
+AA <=
+AA <
+AA >
+AA >=
+AA ! =
+AA ==
+AB AD
+AB AB AC AD
+AC +
+AC -
+AD AF
+AD AD AE AF
+AE *
+AE /
+AF Y
+AF NUM
+AF ( W )
+AF AG
+AG ID ( AH )
+AH AI
+AH ε
+AI AI , W
+AI W
+
+
+
+# 简化后的所有产生式
+A B
+B B C | C
+C D | I
+D E ID ; | E ID [ NUM ] ;
+E int | void | F
+F struct G { H }
+G ID | ε
+H H int ID ; | int ID ;
+I E ID ( J ) M
+J K | void
+K K , L | L
+L E ID | E ID [ ]
+M { N O }
+N N D | ε
+O O P | ε
+P M | Q | S | V | T | U
+Q R ;
+R W | ε
+S if ( W ) P | if ( W ) P else P | switch ( W ) P
+T while ( W ) P | for ( R ; R ; R ) P
+U return R ; | break ; | goto ID ;
+V ID : P | case Z : P | default : P
+W X | Z
+X Y = W
+Y ID | ID [ NUM ] | ID . ID
+Z AB | AB AA AB
+AA <= | < | > | >= | ! = | ==
+AB AD | AB AC AD
+AC + | -
+AD AF | AD AE AF
+AE * | /
+AF Y | NUM | ( W ) | AG
+AG ID ( AH )
+AH AI | ε
+AI AI , W | W

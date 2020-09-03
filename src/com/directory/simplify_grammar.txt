@@ -4,18 +4,18 @@ C D | I
 D E ID ; | E ID [ NUM ] ;
 E int | void | F
 F struct G { H }
-G ID | ¦Å
+G ID | Îµ
 H H int ID ; | int ID ;
 I E ID ( J ) M
 J K | void
 K K , L | L
 L E ID | E ID [ ]
 M { N O }
-N N D | ¦Å
-O O P | ¦Å
+N N D | Îµ
+O O P | Îµ
 P M | Q | S | V | T | U
 Q R ;
-R W | ¦Å
+R W | Îµ
 S if ( W ) P | if ( W ) P else P | switch ( W ) P
 T while ( W ) P | for ( R ; R ; R ) P
 U return R ; | break ; | goto ID ;
@@ -31,5 +31,5 @@ AD AF | AD AE AF
 AE * | /
 AF Y | NUM | ( W ) | AG
 AG ID ( AH )
-AH AI | ¦Å
+AH AI | Îµ
 AI AI , W | W

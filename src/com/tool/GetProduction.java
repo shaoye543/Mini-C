@@ -17,31 +17,31 @@ public class GetProduction {
     private static Map<String, String> result = new HashMap<>();
 
     /**
-     * ½«²úÉúÊ½²ğ·Ö  Ò»ĞĞÒ»¸ö²úÉúÊ½
+     * å°†äº§ç”Ÿå¼æ‹†åˆ†  ä¸€è¡Œä¸€ä¸ªäº§ç”Ÿå¼
      *
      * @throws IOException
      */
     private static void writeAllProduction() throws IOException {
         BufferedReader reader = null;
 
-        reader = new BufferedReader(new FileReader(new File("src/com/directory/grammer.txt")));
+        reader = new BufferedReader(new FileReader(new File("src/com/directory/grammar.txt")));
         String line;
-        reader.readLine();      //µÚÒ»ĞĞÎª×¢ÊÍ Ã»±ØÒª¶ÁÈ¡
+        reader.readLine();      //ç¬¬ä¸€è¡Œä¸ºæ³¨é‡Š æ²¡å¿…è¦è¯»å–
 
-        //´æ·Å·½±ã³ÌĞò¶ÁÈ¡µÄÎÄ·¨
+        //å­˜æ”¾æ–¹ä¾¿ç¨‹åºè¯»å–çš„æ–‡æ³•
         File file = new File("src/com/directory/grammer1.txt");
         if (!file.exists())
             file.createNewFile();
         FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
         BufferedWriter writer = new BufferedWriter(fileWriter);
-        writer.write("×ó²¿(Ö»ÓĞÒ»¸ö)   ÓÒ²¿(ÒÔ¿Õ¸ñ·Ö¸ô)");
+        writer.write("å·¦éƒ¨(åªæœ‰ä¸€ä¸ª)   å³éƒ¨(ä»¥ç©ºæ ¼åˆ†éš”)");
 
         while ((line = reader.readLine()) != null) {
-            String[] nonTerminal = line.split("\\s+");   //ÒÔ¿Õ¸ñ·Ö¸î
-            writer.write("\n" + nonTerminal[1]);       //µÚÒ»¸öÎª²úÉúÊ½µÄ×ó²¿
-            list.add(nonTerminal[1]);      //ËùÓĞµÄ·ÇÖÕ½á·û
-            for (int i = 2; i < nonTerminal.length; i++) {       //Ã¿ĞĞµÄµÚÒ»¸ö×Ö·û´®½ÔÊÇĞòºÅ
-                if (!nonTerminal[i].equals("|"))     //²úÉúÊ½ÓÒ²¿ ÒÔ¿Õ¸ñ·Ö¸ô
+            String[] nonTerminal = line.split("\\s+");   //ä»¥ç©ºæ ¼åˆ†å‰²
+            writer.write("\n" + nonTerminal[1]);       //ç¬¬ä¸€ä¸ªä¸ºäº§ç”Ÿå¼çš„å·¦éƒ¨
+            list.add(nonTerminal[1]);      //æ‰€æœ‰çš„éç»ˆç»“ç¬¦
+            for (int i = 2; i < nonTerminal.length; i++) {       //æ¯è¡Œçš„ç¬¬ä¸€ä¸ªå­—ç¬¦ä¸²çš†æ˜¯åºå·
+                if (!nonTerminal[i].equals("|"))     //äº§ç”Ÿå¼å³éƒ¨ ä»¥ç©ºæ ¼åˆ†éš”
                     writer.write(" " + nonTerminal[i]);
                 else
                     writer.write("\n" + nonTerminal[1]);
@@ -52,7 +52,7 @@ public class GetProduction {
     }
 
     /**
-     * ½«ÆğÊ¼·ûºÍ·ÇÖÕ½á·û¼ò»¯ ÈçA B C AA, etc
+     * å°†èµ·å§‹ç¬¦å’Œéç»ˆç»“ç¬¦ç®€åŒ– å¦‚A B C AA, etc
      *
      * @throws IOException
      */
@@ -79,7 +79,7 @@ public class GetProduction {
     }
 
     /**
-     * ½«ËùÓĞ²úÉúÊ½Ìæ»»Îª¼ò»¯·û
+     * å°†æ‰€æœ‰äº§ç”Ÿå¼æ›¿æ¢ä¸ºç®€åŒ–ç¬¦
      */
     private static void writeAllSimplifiedProduction() throws IOException {
         File file = new File("src/com/directory/grammer3.txt");
@@ -106,8 +106,8 @@ public class GetProduction {
     }
 
     private static void writeAllSimplifiedProduction1() throws IOException {
-        File file = new File("src/com/directory/grammer4.txt");
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/com/directory/grammer.txt")));
+        File file = new File("src/com/directory/simplify_grammar.txt");
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/com/directory/grammar.txt")));
         FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
         BufferedWriter writer = new BufferedWriter(fileWriter);
         if (!file.exists())
@@ -146,10 +146,10 @@ public class GetProduction {
 //
 //            boolean flag = false;
 //            String t = String.valueOf(temp).toUpperCase();
-//            for (String key : result.keySet()) {   //ÊÇ·ñÓĞÖØ¸´µÄËõĞ´
+//            for (String key : result.keySet()) {   //æ˜¯å¦æœ‰é‡å¤çš„ç¼©å†™
 //                if (t.equals(result.get(key))) {
 //                    flag = true;
-//                    System.out.println("ÖØ¸´:" + key + " : " + value + " : " + t);
+//                    System.out.println("é‡å¤:" + key + " : " + value + " : " + t);
 //                    break;
 //                }
 //            }
